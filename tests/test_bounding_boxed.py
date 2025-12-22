@@ -1,12 +1,10 @@
 """
 Tests for BoundingBox value object.
 """
-
 from math import isclose
 
 import pytest
-from src.core.domain.value_objects import BoundingBox
-from src.core.shared.errors import InvalidBoundingBoxError
+from src.shared_kernel.value_objects import BoundingBox, InvalidBoundingBoxError
 
 
 class TestBoundingBoxCreation:

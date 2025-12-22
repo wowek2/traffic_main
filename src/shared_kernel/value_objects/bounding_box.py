@@ -1,8 +1,12 @@
 from dataclasses import dataclass
 from typing import Self
 
-from src.core.shared.errors import InvalidBoundingBoxError
+from src.shared_kernel.exceptions import DomainError
 
+
+class InvalidBoundingBoxError(DomainError):
+    """Raised when bounding box coordinates violate invariants."""
+    pass
 
 @dataclass(frozen=True)
 class BoundingBox:
