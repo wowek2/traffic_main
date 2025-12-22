@@ -1,6 +1,8 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Self
 
+from .point import Point
 from src.shared_kernel.exceptions import DomainError
 
 
@@ -8,7 +10,7 @@ class InvalidBoundingBoxError(DomainError):
     """Raised when bounding box coordinates violate invariants."""
     pass
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class BoundingBox:
     """Imutable bounding box with validation.
     Attributes:
@@ -78,11 +80,11 @@ class BoundingBox:
         return self.width * self.height
 
     @property
-    def center(self) -> tuple[float, float]:
+    def center(self) -> Point:
         """Center point (x, y) of the bounding box."""
         center_x = (self.x1 + self.x2) / 2
         center_y = (self.y1 + self.y2) / 2
-        return (center_x, center_y)
+        return Point(center_x, center_y)
 
     @property
     def top_left(self) -> tuple[float, float]:
@@ -223,7 +225,9 @@ class BoundingBox:
         Returns:
             New scaled BoundingBox instance.
         """
-        center_x, center_y = self.center
+        center = self.center
+        center_x = center.x
+        center_y = center.y
         new_half_width = (self.width * factor) / 2
         new_half_height = (self.height * factor) / 2
 
@@ -244,10 +248,10 @@ class BoundingBox:
         Returns:
             Euclidean distance between the centers.
         """
-        center_x1, center_y1 = self.center
-        center_x2, center_y2 = other.center
+        c1 = self.center
+        c2 = other.center
 
-        return ((center_x2 - center_x1) ** 2 + (center_y2 - center_y1) ** 2) ** 0.5
+        return ((c2.x - c1.x) ** 2 + (c2.y - c1.y) ** 2) ** 0.5
 
     def edge_distance(self, other: Self) -> float:
         """Calculate the minimum distance between the edges of two boxes.

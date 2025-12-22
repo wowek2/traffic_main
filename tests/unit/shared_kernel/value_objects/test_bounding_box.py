@@ -4,7 +4,7 @@ Tests for BoundingBox value object.
 from math import isclose
 
 import pytest
-from src.shared_kernel.value_objects import BoundingBox, InvalidBoundingBoxError
+from src.shared_kernel.value_objects import BoundingBox, InvalidBoundingBoxError, Point
 
 
 class TestBoundingBoxCreation:
@@ -255,8 +255,9 @@ class TestBoundingBoxTransformation:
         """Scaling should preserve the center of the bounding box."""
         bbox = BoundingBox(x1=20.0, y1=30.0, x2=60.0, y2=70.0)
         scaled = bbox.scale(factor=1.5)
-
-        assert scaled.center == bbox.center
+        expected_center = Point(40.0, 50.0)
+        assert scaled.center == expected_center
+        assert bbox.center == expected_center
 
 class TestBoundingBoxDistance:
     """Tests for bounding box distance calculations."""
