@@ -1,11 +1,12 @@
 """
 Tests for Velocity value object.
 """
-from math import isclose, pi
 from dataclasses import FrozenInstanceError
-import pytest
+from math import isclose, pi
 
+import pytest
 from src.shared_kernel.value_objects import Velocity
+
 
 class TestVelocity:
     """Unit tests for Velocity value object."""
@@ -38,7 +39,7 @@ class TestVelocity:
         v = Velocity(dx=1.0, dy=2.0)
 
         with pytest.raises(FrozenInstanceError):
-            v.dx = 3.0
+            v.dx = 3.0 # type: ignore
 
     # Calculation tests
     def test_speed_calculation(self):
@@ -56,7 +57,7 @@ class TestVelocity:
         speed = v.speed
 
         assert isclose(speed, 5.0)
-    
+
     def test_zero_velocity(self):
         """Speed of zero velocity should be zero."""
         v = Velocity(dx=0.0, dy=0.0)
@@ -86,4 +87,3 @@ class TestVelocity:
         angle = v.angle
 
         assert isclose(angle, pi / 4)
-    

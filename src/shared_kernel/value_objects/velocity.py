@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
-from math import sqrt, atan2
+from math import atan2, sqrt
+
 
 @dataclass(frozen=True, slots=True)
 class Velocity:
@@ -20,7 +22,7 @@ class Velocity:
             Speed as a float.
         """
         return sqrt(self.dx**2 + self.dy**2)
-    
+
     @property
     def angle(self) -> float:
         """Calculate the angle (direction) of the velocity vector in radians.

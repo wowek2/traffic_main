@@ -1,11 +1,12 @@
 """
 Tests for Point value object.
 """
-from math import isclose
 from dataclasses import FrozenInstanceError
-import pytest
+from math import isclose
 
+import pytest
 from src.shared_kernel.value_objects import Point
+
 
 class TestPoint:
     """Unit tests for Point value object."""
@@ -39,7 +40,7 @@ class TestPoint:
         p = Point(x=1.0, y=2.0)
 
         with pytest.raises(FrozenInstanceError):
-            p.x = 3.0
+            p.x = 3.0 # type: ignore
 
     # Geometric method tests
     def test_distance_to_zero(self):

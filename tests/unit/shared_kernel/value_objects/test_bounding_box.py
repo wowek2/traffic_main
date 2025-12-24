@@ -333,9 +333,9 @@ class TestBoundingBoxImmutability:
         """BoundingBox should be frozen."""
         bbox = BoundingBox(x1=10.0, y1=20.0, x2=100.0, y2=200.0)
         with pytest.raises(AttributeError):
-            bbox.x1 = 50
+            bbox.x1 = 50.0 # type: ignore
         with pytest.raises(AttributeError):
-            bbox.y2 = 150
+            bbox.y2 = 150.0 # type: ignore
 
     def test_translate_returns_new(self) -> None:
         """Translate should return new object, not modify original."""

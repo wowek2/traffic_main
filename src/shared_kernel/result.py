@@ -139,20 +139,20 @@ class Err(Result[T, E]):
     def expect(self, msg: str) -> T: raise ValueError(f"{msg}: {self.error}")
 
     def map(self, fn: Callable[[T], U]) -> Result[U, E]: return cast("Result[U, E]", self)
-    def map_err(self, fn) -> Result[T, F]: return Err(fn(self.error))
+    def map_err(self, fn: Callable[[E], F]) -> Result[T, F]: return Err(fn(self.error))
 
     def flat_map(self, fn: Callable[[T], Result[U, E]]) -> Result[U, E]: return cast("Result[U, E]", self)
 
     def or_else(self, fn: Callable[[E], Result[T, F]]) -> Result[T, F]: return fn(self.error)
 
     def inspect(self, fn: Callable[[T], None]) -> Result[T, E]:
-        fn(self.value)
         return self
 
     def inspect_err(self, fn: Callable[[E], None]) -> Result[T, E]:
+        fn(self.error)
         return self
 
     def __repr__(self) -> str: return f"Err({self.error})"
 
 # Aliases for easier usage
-ResultType = Union(Ok[T, E], Err[T, E])
+ResultType = Union[Ok[T, E], Err[T, E]]

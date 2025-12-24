@@ -1,9 +1,11 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Self
 
-from .point import Point
 from src.shared_kernel.exceptions import DomainError
+
+from .point import Point
 
 
 class InvalidBoundingBoxError(DomainError):
@@ -144,7 +146,7 @@ class BoundingBox:
 
         return intersection_area / union_area
 
-    def intersection(self, other: Self) -> Self | None:
+    def intersection(self, other: Self) -> BoundingBox | None:
         """Calculate the intersection bounding box with another bounding box.
         Args:
             other (BoundingBox): Another bounding box.
@@ -203,7 +205,7 @@ class BoundingBox:
     """
     Transformation methods
     """
-    def translate(self, dx: float, dy: float) -> Self:
+    def translate(self, dx: float, dy: float) -> BoundingBox:
         """Translate the bounding box by (dx, dy).
         Args:
             dx (float): Offset in x-direction.
@@ -218,7 +220,7 @@ class BoundingBox:
             y2=self.y2 + dy
         )
 
-    def scale(self, factor: float) -> Self:
+    def scale(self, factor: float) -> BoundingBox:
         """ Return new bounding box scaled by a factor from its center.
         Args:
             factor (float): Scaling factor. >1 to enlarge, <1 to shrink.
@@ -251,7 +253,7 @@ class BoundingBox:
         c1 = self.center
         c2 = other.center
 
-        return ((c2.x - c1.x) ** 2 + (c2.y - c1.y) ** 2) ** 0.5
+        return float(((c2.x - c1.x) ** 2 + (c2.y - c1.y) ** 2) ** 0.5)
 
     def edge_distance(self, other: Self) -> float:
         """Calculate the minimum distance between the edges of two boxes.
@@ -266,4 +268,4 @@ class BoundingBox:
         dx = max(other.x1 - self.x2, self.x1 - other.x2, 0)
         dy = max(other.y1 - self.y2, self.y1 - other.y2, 0)
 
-        return (dx ** 2 + dy ** 2) ** 0.5
+        return float((dx ** 2 + dy ** 2) ** 0.5)
