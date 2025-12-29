@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from src.shared_kernel.semantic_model.labels import SemanticClass
-from src.shared_kernel.value_objects import BoundingBox
+from shared_kernel.semantic_model.labels import SemanticClass
+from shared_kernel.value_objects import BoundingBox
 
 
 @dataclass(frozen=True, slots=True)

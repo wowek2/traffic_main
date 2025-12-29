@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Self
 
-from src.shared_kernel.exceptions import DomainError
-from src.shared_kernel.result_monad import Err, Ok, Result
+from shared_kernel.exceptions import DomainError
+from shared_kernel.result_monad import Err, Ok, Result
 
 from .point import Point
 

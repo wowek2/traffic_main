@@ -47,7 +47,7 @@ all = [
 detect = "detection_platform.presentation.cli.main:app"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/detection_platform"]
+packages = ["src/detection_platform", "src/shared_kernel"]
 
 [tool.hatch.build.targets.sdist]
 include = [

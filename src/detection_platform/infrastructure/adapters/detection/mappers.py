@@ -1,4 +1,4 @@
-from src.shared_kernel.semantic_model.labels import SemanticClass
+from shared_kernel.semantic_model.labels import SemanticClass
 
 
 class YoloClassMapper:

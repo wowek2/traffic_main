@@ -2,11 +2,11 @@ from collections.abc import Iterable, Sequence
 from typing import Any, cast
 
 import numpy as np
-from src.shared_kernel.detection_core.domain.detection import Detection
-from src.shared_kernel.detection_core.ports.detector_port import DetectorPort
-from src.shared_kernel.result_monad import Err, Ok, Result
-from src.shared_kernel.semantic_model.labels import SemanticClass
-from src.shared_kernel.value_objects import BoundingBox
+from shared_kernel.detection_core.domain.detection import Detection
+from shared_kernel.detection_core.ports.detector_port import DetectorPort
+from shared_kernel.result_monad import Err, Ok, Result
+from shared_kernel.semantic_model.labels import SemanticClass
+from shared_kernel.value_objects import BoundingBox
 from ultralytics import YOLO  # type: ignore[attr-defined]
 
 from .mappers import YoloClassMapper

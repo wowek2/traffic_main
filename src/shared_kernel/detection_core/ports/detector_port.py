@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import Any
 
-from src.shared_kernel.detection_core.domain.detection import Detection
-from src.shared_kernel.result_monad import Result
-from src.shared_kernel.semantic_model.labels import SemanticClass
+from shared_kernel.detection_core.domain.detection import Detection
+from shared_kernel.result_monad import Result
+from shared_kernel.semantic_model.labels import SemanticClass
 
 
 class DetectorPort(ABC):
