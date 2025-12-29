@@ -7,7 +7,7 @@ from src.shared_kernel.result_monad import Result
 from src.shared_kernel.semantic_model.labels import SemanticClass
 
 
-class DetectionPort(ABC):
+class DetectorPort(ABC):
     """
     Abstract port for object detection.
     Infrastructure adapters will import this using specific ML frameworks.
