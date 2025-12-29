@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from src.shared_kernel.exceptions import DomainError
+from src.shared_kernel.result_monad import Err, Ok, Result
 
 from .point import Point
 
@@ -50,6 +51,18 @@ class BoundingBox:
     """
     Factory methods
     """
+    @classmethod
+    def create(cls, x1: float, y1: float, x2: float, y2: float) -> Result[BoundingBox, str]:
+        """
+        Safely creates BoundingBox.
+        Returns:
+            Ok(BoundingBox) if valid, otherwise Err(str) with error message.
+        """
+        try:
+            return Ok(cls(x1=x1, y1=y1, x2=x2, y2=y2))
+        except InvalidBoundingBoxError as e:
+            return(Err(str(e)))
+        
     @classmethod
     def from_coordinates(cls, coords: tuple[float, float, float, float]) -> Self:
         """Create BoundingBox from a tuple of coordinates.

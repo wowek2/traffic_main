@@ -8,51 +8,60 @@ from src.shared_kernel.value_objects import BoundingBox, InvalidBoundingBoxError
 
 
 class TestBoundingBoxCreation:
-    """Tests for BoundingBox creation and validation."""
+    """Tests for BoundingBox creation and validation via factory."""
 
     def test_valid_bounding_box(self):
         """Test creating a valid bounding box."""
-        bbox = BoundingBox(x1=10.0, y1=20.0, x2=30.0, y2=40.0)
+        result = BoundingBox.create(x1=10.0, y1=20.0, x2=30.0, y2=40.0)
+        
+        assert result.is_ok()
+        bbox = result.unwrap()
         assert bbox.x1 == 10.0
         assert bbox.y1 == 20.0
         assert bbox.x2 == 30.0
         assert bbox.y2 == 40.0
 
     def test_invalid_bounding_box_x1_greater_equal_x2(self):
-        """Test creating a bounding box with x1 >= x2 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=30.0, y1=20.0, x2=10.0, y2=40.0)
-        assert "x1 (30.0) must be less than x2 (10.0)" in str(exc_info.value)
+        """Test creating a bounding box with x1 >= x2 returns error."""
+        result = BoundingBox.create(x1=30.0, y1=20.0, x2=10.0, y2=40.0)
+        
+        assert result.is_err()
+        assert "x1 (30.0) must be less than x2 (10.0)" in result.unwrap_err()
 
     def test_invalid_bounding_box_y1_greater_equal_y2(self):
-        """Test creating a bounding box with y1 >= y2 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=10.0, y1=40.0, x2=30.0, y2=20.0)
-        assert "y1 (40.0) must be less than y2 (20.0)" in str(exc_info.value)
+        """Test creating a bounding box with y1 >= y2 returns error."""
+        result = BoundingBox.create(x1=10.0, y1=40.0, x2=30.0, y2=20.0)
+
+        assert result.is_err()
+        assert "y1 (40.0) must be less than y2 (20.0)" in result.unwrap_err()
 
     def test_invalid_bounding_box_negative_x1(self):
-        """Test creating a bounding box with negative x1 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=-5.0, y1=20.0, x2=30.0, y2=40.0)
-        assert "x1 (-5.0) must be non-negative" in str(exc_info.value)
+        """Test creating a bounding box with negative x1 returns error."""
+        result = BoundingBox.create(x1=-5.0, y1=20.0, x2=30.0, y2=40.0)
+        
+        assert result.is_err()
+        assert "x1 (-5.0) must be non-negative" in result.unwrap_err()
 
     def test_invalid_bounding_box_negative_y1(self):
-        """Test creating a bounding box with negative y1 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=10.0, y1=-10.0, x2=30.0, y2=40.0)
-        assert "y1 (-10.0) must be non-negative" in str(exc_info.value)
+        """Test creating a bounding box with negative y1 returns error."""
+        result = BoundingBox.create(x1=10.0, y1=-10.0, x2=30.0, y2=40.0)
+        
+        assert result.is_err()
+        assert "y1 (-10.0) must be non-negative" in result.unwrap_err()
 
-    def test_x1_equals_x2_raises_error(self):
-        """Test creating a bounding box with x1 == x2 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=15.0, y1=20.0, x2=15.0, y2=40.0)
-        assert "x1 (15.0) must be less than x2 (15.0)" in str(exc_info.value)
+    def test_x1_equals_x2_returns_error(self):
+        """Test creating a bounding box with x1 == x2 returns error."""
+        result = BoundingBox.create(x1=15.0, y1=20.0, x2=15.0, y2=40.0)
+        
+        assert result.is_err()
+        assert "x1 (15.0) must be less than x2 (15.0)" in result.unwrap_err()
 
-    def test_y1_equals_y2_raises_error(self):
-        """Test creating a bounding box with y1 == y2 raises error."""
-        with pytest.raises(InvalidBoundingBoxError) as exc_info:
-            BoundingBox(x1=10.0, y1=25.0, x2=30.0, y2=25.0)
-        assert "y1 (25.0) must be less than y2 (25.0)" in str(exc_info.value)
+    def test_y1_equals_y2_returns_error(self):
+        """Test creating a bounding box with y1 == y2 returns error."""
+        result = BoundingBox.create(x1=10.0, y1=25.0, x2=30.0, y2=25.0)
+        
+        assert result.is_err()
+        assert "y1 (25.0) must be less than y2 (25.0)" in result.unwrap_err()
 
 class TestBoundingBoxFactoryMethods:
     """Tests for BoundingBox factory methods."""

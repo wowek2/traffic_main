@@ -1,7 +1,8 @@
-import pytest
 from unittest.mock import Mock
 
-from src.shared_kernel import Ok, Err, Result
+import pytest
+from src.shared_kernel import Err, Ok, Result
+
 
 class TestOkState:
     """Test veryfing monad behaviour in succes state."""
@@ -24,7 +25,7 @@ class TestOkState:
         """Trying to retrive error from Ok should throw exception."""
         with pytest.raises(ValueError, match="Called unwrap_err on Ok"):
             Ok(5).unwrap_err()
-    
+
     def test_mapping_transform_value(self):
         """Mapping should change value inside of Ok."""
         assert Ok(2).map(lambda x: x * 2) == Ok(4)
@@ -133,7 +134,7 @@ class TestMonadicChaining:
         """Testing longer chain of events."""
         def validation(x: int) -> Result[int, str]:
             return Ok(x) if x > 0 else Err("Negative")
-        
+
         start_node: Result[int, str] = Ok(10)
 
         # 1. Succes of a whole chain
