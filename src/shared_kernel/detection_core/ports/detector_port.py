@@ -5,6 +5,7 @@ from typing import Any
 from shared_kernel.detection_core.domain.detection import Detection
 from shared_kernel.result_monad import Result
 from shared_kernel.semantic_model.labels import SemanticClass
+from shared_kernel.exceptions import DomainError
 
 
 class DetectorPort(ABC):
@@ -18,7 +19,7 @@ class DetectorPort(ABC):
         self,
         frame: Any, # Abstracted image (could be numpy arr in implementation)
         filter_classes: Sequence[SemanticClass] | None = None
-    ) -> Result[Sequence[Detection], str]:
+    ) -> Result[Sequence[Detection], DomainError]:
         """
         Perform detection on the given frame.
 

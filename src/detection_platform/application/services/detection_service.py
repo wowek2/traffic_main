@@ -4,6 +4,7 @@ from typing import Any
 from shared_kernel.detection_core.domain.detection import Detection
 from shared_kernel.detection_core.ports.detector_port import DetectorPort
 from shared_kernel.result_monad import Result
+from shared_kernel.exceptions import DomainError
 from shared_kernel.semantic_model.labels import SemanticClass
 
 
@@ -20,7 +21,7 @@ class DetectionService:
         self,
         frame: Any,
         filter_classes: Sequence[SemanticClass] | None = None
-    ) -> Result[Sequence[Detection], str]:
+    ) -> Result[Sequence[Detection], DomainError]:
         """
         Executes detection logic on a single frame.
 

@@ -1,13 +1,15 @@
 from collections.abc import Iterable, Sequence
 from typing import Any, cast
 
+from ultralytics import YOLO  # type: ignore[attr-defined]
 import numpy as np
+
 from shared_kernel.detection_core.domain.detection import Detection
 from shared_kernel.detection_core.ports.detector_port import DetectorPort
 from shared_kernel.result_monad import Err, Ok, Result
 from shared_kernel.semantic_model.labels import SemanticClass
 from shared_kernel.value_objects import BoundingBox
-from ultralytics import YOLO  # type: ignore[attr-defined]
+from shared_kernel.exceptions import InfrastructureError
 
 from .mappers import YoloClassMapper
 
@@ -24,10 +26,13 @@ class YoloAdapter(DetectorPort):
         self,
         frame: Any,
         filter_classes: Sequence[SemanticClass] | None = None
-    ) -> Result[Sequence[Detection], str]:
+    ) -> Result[Sequence[Detection], InfrastructureError]:
 
         if not isinstance(frame, np.ndarray):
-             return Err("YoloAdapter requires numpy array as frame input")
+             return Err(
+                InfrastructureError(
+                    "YoloAdapter requires numpy array as frame input"
+                    ))
 
         try:
             results = self._model.predict(frame, conf=self._conf_threshold, verbose=False)
@@ -73,4 +78,8 @@ class YoloAdapter(DetectorPort):
             return Ok(domain_detections)
 
         except Exception as e:
-            return Err(f"Detection infrastructure error: {e!s}")
+            return Err(
+                InfrastructureError(
+                    f"Detection infrastructure error: {e!s}"
+                )
+            )
